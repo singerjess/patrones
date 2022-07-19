@@ -10,6 +10,6 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 venv
-resources/results/*
+application/resources/results/*.json
 *.xml
 .idea
