@@ -20,21 +20,22 @@ class PatternUnifying:
                 all_possible_assignments.append(next_list)
         return all_possible_assignments
 
-    def subpatterns_of_pattern(self, base_pattern: Pattern, comp_pattern: Pattern):
-        assignments = self.possible_assignments([i for i in range(0, comp_pattern.total_nodes)],
-                                                base_pattern.total_nodes)
+    def subpattern(self, base_pattern: Pattern, comp_pattern: Pattern, assignments: list):
         sub_patterns = [comp_pattern.generate_subpattern(assignment) for assignment in assignments]
-        response = []
         for i in range(0, len(sub_patterns)):
             if base_pattern <= sub_patterns[i]:
-                response.append(assignments[i])
-        return response
+                return assignments[i]
 
     def get_undecided_completion_to_form_subpattern(self, base_pattern: Pattern, comp_pattern: Pattern):
+
         assignments = self.possible_assignments([i for i in range(0, comp_pattern.total_nodes)],
                                                 base_pattern.total_nodes)
-        response_pattern = Pattern(comp_pattern.total_nodes, [], [])
-        last_calculated_pattern = Pattern(comp_pattern.total_nodes, [], [])
+        subpattern = self.subpattern(base_pattern, comp_pattern, assignments)
+        if subpattern is not None:
+            return Pattern(0, [], []) # the null pattern
+
+        response_pattern = Pattern(comp_pattern.total_nodes, [*comp_pattern.edges], [*comp_pattern.non_edges])
+        last_calculated_pattern = Pattern(comp_pattern.total_nodes, [*comp_pattern.edges], [*comp_pattern.non_edges])
         is_first_run = True
         while is_first_run or response_pattern != last_calculated_pattern:
             is_first_run = False
