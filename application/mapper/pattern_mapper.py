@@ -22,4 +22,4 @@ class PatternMapper:
 
     def map_patterns_to_json(self, results: list):
         return "{\"total\":" + str(len(results)) + ", \"items\": " + str(
-            [json.loads(self.map_pattern_to_json(result)) for result in results]).replace("\'", "\"")
+            [json.loads(self.map_pattern_to_json(result)) for result in results]).replace("\'", "\"") + "}"

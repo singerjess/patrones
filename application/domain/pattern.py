@@ -7,6 +7,7 @@ Edge = Tuple[int, int]
 
 class Pattern:
     def __init__(self, total_nodes, edges, non_edges):
+        self._assert_edges_and_non_edges_do_not_intersect(edges, non_edges)
         self.total_nodes = total_nodes
         self.edges = sorted(set(edges), key=lambda edge: (edge[0], edge[1]))
         self.non_edges = sorted(set(non_edges), key=lambda non_edge: (non_edge[0], non_edge[1]))
@@ -106,3 +107,11 @@ class Pattern:
     def __str__(self):
         return "total_nodes:" + str(self.total_nodes) + "\nedges: " + ''.join(
             map(str, self.edges)) + "\nnon_edges: " + ''.join(map(str, self.non_edges)) + "\n"
+
+    def _assert_edges_and_non_edges_do_not_intersect(self, edges, non_edges):
+        for edge in edges:
+            if edge in non_edges:
+                raise RuntimeError("Trying to create illegal pattern with edge: " + str(edge))
+        for non_edge in non_edges:
+            if non_edge in edges:
+                raise RuntimeError("Trying to create illegal pattern with edge: " + str(non_edge))
