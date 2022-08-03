@@ -1,4 +1,4 @@
-from patrones.application.domain.pattern import Pattern
+from application.domain.pattern import Pattern
 
 
 class SubpatternCalculator:

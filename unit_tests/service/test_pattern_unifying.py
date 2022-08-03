@@ -1,9 +1,9 @@
 from _pytest.fixtures import fixture
 
-from patrones.application.domain.pattern import Pattern
-from patrones.application.service.injective_node_mapper import InjectiveNodeMapper
-from patrones.application.service.pattern_unifying import PatternUnifying
-from patrones.application.service.subpattern_calculator import SubpatternCalculator
+from application.domain.pattern import Pattern
+from application.service.injective_node_mapper import InjectiveNodeMapper
+from application.service.pattern_unifying import PatternUnifying
+from application.service.subpattern_calculator import SubpatternCalculator
 
 
 class TestPatternUnifying:

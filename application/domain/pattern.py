@@ -1,4 +1,8 @@
+from typing import Tuple
+
 import graphviz
+
+Edge = Tuple[int, int]
 
 
 class Pattern:
@@ -52,6 +56,14 @@ class Pattern:
         if isinstance(other, Pattern):
             return set(self.edges).issubset(set(other.edges)) and set(self.non_edges).issubset(set(other.non_edges)) \
                    and self.total_nodes <= other.total_nodes
+        return False
+
+    def __lt__(self, other):
+        if isinstance(other, Pattern):
+            return set(self.edges).issubset(set(other.edges)) and set(self.non_edges).issubset(set(other.non_edges)) \
+                   and self.total_nodes <= other.total_nodes and (
+                           len(self.edges) < len(other.edges) or len(self.non_edges) < len(
+                       other.non_edges) or self.total_nodes < other.total_nodes)
         return False
 
     def __add__(self, other):
