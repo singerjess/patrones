@@ -1,3 +1,6 @@
+from typing import List
+
+from application.domain.pattern import Pattern
 from application.mapper.pattern_mapper import PatternMapper
 from application.service.injective_node_mapper import InjectiveNodeMapper
 from application.service.pattern_expander import PatternExpander
@@ -9,9 +12,11 @@ def main():
     pattern_mapper = PatternMapper()
     base_patterns = pattern_mapper.map_json_to_pattern_list('resources/base_patterns.json')
     two_thinness_patterns = pattern_mapper.map_json_to_pattern_list('resources/two_thinness_patterns.json')
-    pattern_unifying = PatternUnifying(SubpatternCalculator(), InjectiveNodeMapper())
+    injective_node_mapper = InjectiveNodeMapper()
+    subpattern_calculator = SubpatternCalculator(injective_node_mapper)
+    pattern_unifying = PatternUnifying(subpattern_calculator, injective_node_mapper)
 
-    output_pattern_subtraction_optimized(base_patterns, pattern_mapper, pattern_unifying, two_thinness_patterns)
+    output_pattern_subtraction_optimized(base_patterns, pattern_mapper, pattern_unifying, two_thinness_patterns, subpattern_calculator)
 
 
 def output_pattern_subtraction(base_patterns, pattern_mapper, pattern_unifying, two_thinness_patterns):
@@ -32,7 +37,7 @@ def output_pattern_subtraction(base_patterns, pattern_mapper, pattern_unifying, 
             f.write(']')
 
 
-def output_pattern_subtraction_optimized(base_patterns, pattern_mapper, pattern_unifying, two_thinness_patterns):
+def output_pattern_subtraction_optimized(base_patterns: List[Pattern], pattern_mapper: PatternMapper, pattern_unifying: PatternUnifying, two_thinness_patterns, subpattern_calculator: SubpatternCalculator):
     index = 0
     pattern_expander = PatternExpander()
     for base_pattern in base_patterns:
@@ -42,7 +47,16 @@ def output_pattern_subtraction_optimized(base_patterns, pattern_mapper, pattern_
         results_expanded = []
         for result in results:
             results_expanded = results_expanded + pattern_expander.expand(result)
-        final_final = pattern_unifying.subtract_many_patterns(base_pattern, results_expanded)
+        expanded_base_patterns = pattern_expander.expand(base_pattern)
+        results_expanded_filtering_subgraphs = []
+        for result_expanded in results_expanded:
+            should_add = True
+            for expanded_base_pattern in expanded_base_patterns:
+                if subpattern_calculator.is_subpattern(expanded_base_pattern, result_expanded):
+                    should_add = False
+            if should_add:
+                results_expanded_filtering_subgraphs.append(result_expanded)
+        final_final = pattern_unifying.subtract_many_patterns(base_pattern, results_expanded_filtering_subgraphs) #solo para compararlos entre ellos
         with open(result_file_name, 'w') as f:
             f.write(pattern_mapper.map_patterns_to_json(final_final))
 

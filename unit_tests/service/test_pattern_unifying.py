@@ -9,8 +9,8 @@ from application.service.subpattern_calculator import SubpatternCalculator
 class TestPatternUnifying:
 
     @fixture()
-    def subpattern_calculator(self):
-        return SubpatternCalculator()
+    def subpattern_calculator(self, injective_node_mapper):
+        return SubpatternCalculator(injective_node_mapper)
 
     @fixture()
     def injective_node_mapper(self):
@@ -24,7 +24,7 @@ class TestPatternUnifying:
         base_pattern = Pattern(3, [(0, 1), (1, 2)], [(0, 2)])
         assignments = injective_node_mapper.possible_assignments([i for i in range(0, base_pattern.total_nodes)],
             base_pattern.total_nodes)
-        assert [0, 1, 2] == subpattern_calculator.subpattern(base_pattern, base_pattern, assignments)
+        assert [0, 1, 2] == subpattern_calculator.is_subpattern_with_same_ordering(base_pattern, base_pattern, assignments)
 
     def test_the_same_pattern_with_different_order_is_not_a_subpattern(self, pattern_unifying):
         base_pattern = Pattern(3, [(0, 1), (0, 2)], [(1, 2)])

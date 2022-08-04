@@ -49,3 +49,29 @@ class TestPatternExpander:
         assert expected_pattern_2 in expanded_patterns
         assert expected_pattern_1 in expanded_patterns
         assert len(expanded_patterns) == 4
+
+    def test_a_pattern_with_no_edges_decided_has_all_possibilities(self,
+                                                                   pattern_expander):
+        pattern_all_undecided_edges = Pattern(3, [], [])
+        expected_pattern_1 = Pattern(3, [(0, 1), (0, 2), (1, 2)], [])
+
+        expected_pattern_2 = Pattern(3, [(0, 1), (0, 2)], [(1, 2)])
+        expected_pattern_4 = Pattern(3, [(1, 2), (0, 2)], [(0, 1)])
+        expected_pattern_7 = Pattern(3, [(0, 1), (1, 2)], [(0, 2)])
+        expected_pattern_8 = Pattern(3, [(1, 2)], [(0, 1), (0, 2)], )
+        expected_pattern_5 = Pattern(3, [(0, 1)], [(1, 2), (0, 2)], )
+        expected_pattern_3 = Pattern(3, [(0, 2)], [(0, 1), (1, 2)], )
+
+        expected_pattern_6 = Pattern(3, [], [(1, 2), (0, 1), (0, 2)])
+
+        expanded_patterns = pattern_expander.expand(pattern_all_undecided_edges)
+
+        assert expected_pattern_8 in expanded_patterns
+        assert expected_pattern_7 in expanded_patterns
+        assert expected_pattern_6 in expanded_patterns
+        assert expected_pattern_5 in expanded_patterns
+        assert expected_pattern_4 in expanded_patterns
+        assert expected_pattern_3 in expanded_patterns
+        assert expected_pattern_2 in expanded_patterns
+        assert expected_pattern_1 in expanded_patterns
+        assert len(expanded_patterns) == 8

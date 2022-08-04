@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Pattern, Tuple
 
 import graphviz
 
@@ -78,6 +78,12 @@ class Pattern:
     def has_non_edge(self, node1, node2):
         return node2 in self.get_non_edges(node1)
 
+    def has_edge_without_order(self, node1, node2):
+        return node2 in self.get_edges(node1) or node1 in self.get_edges(node2)
+
+    def has_non_edge_without_order(self, node1, node2):
+        return node2 in self.get_non_edges(node1) or node1 in self.get_non_edges(node2)
+
     def generate_subpattern(self, assignment: list):
         total_nodes = len(assignment)
         edges = []
@@ -99,6 +105,17 @@ class Pattern:
         for i in range(0, self.total_nodes):
             dot.node(str(i), 'node_' + str(i))
         # pendiente
+
+    def less_or_equal_without_ordering(self, other: Pattern):
+        if self.total_nodes > other.total_nodes:
+            return False
+        for edge in self.edges:
+            if not other.has_edge_without_order(edge[0], edge[1]):
+                return False
+        for non_edge in self.non_edges:
+            if not other.has_non_edge_without_order(non_edge[0], non_edge[1]):
+                return False
+        return True
 
     def __repr__(self):
         return "total_nodes:" + str(self.total_nodes) + "\nedges: " + ''.join(
