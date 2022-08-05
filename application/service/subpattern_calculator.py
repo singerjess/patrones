@@ -10,16 +10,15 @@ class SubpatternCalculator:
         sub_patterns = [comp_pattern.generate_subpattern(assignment) for assignment in assignments]
         for i in range(0, len(sub_patterns)):
             if base_pattern <= sub_patterns[i]:
-                return assignments[i]
+                return assignments[i] # todo: devolver algo con mas sentido
 
     def is_subpattern(self, subpattern: Pattern, pattern: Pattern):  ## TODO: aclarar que es sin orden
         if subpattern.total_nodes > pattern.total_nodes:
             return False
-        ordered_assignments = self._injective_node_mapper.possible_assignments_unordered(
-            [i for i in range(0, pattern.total_nodes)], subpattern.total_nodes)
+        unordered_assignments = self._injective_node_mapper.possible_assignments_unordered(pattern, subpattern)
 
-        sub_patterns = [pattern.generate_subpattern(assignment) for assignment in ordered_assignments]
+        sub_patterns = [pattern.generate_subpattern(assignment) for assignment in unordered_assignments]
         for i in range(0, len(sub_patterns)):
-            if subpattern.less_or_equal_without_ordering(sub_patterns[i]):
+            if subpattern.less_or_equal_without_ordering(sub_patterns[i]): # cambiar el generate subpattern, que solo te de ejes ordenados de menor a mayor
                 return True
-        return False
+        return False #todo: si lo cambio, queda menos codigo, uso el menor igual comun.

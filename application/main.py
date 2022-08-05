@@ -57,7 +57,7 @@ def output_pattern_subtraction_optimized(base_patterns: List[Pattern], pattern_m
             if should_add:
                 results_expanded_filtering_subgraphs.append(result_expanded)
         final_final = pattern_unifying.subtract_many_patterns(base_pattern, results_expanded_filtering_subgraphs) #solo para compararlos entre ellos
-        with open(result_file_name, 'w') as f:
+        with open(result_file_name, 'w') as f: # todo: ojo, los ordenes no se si vale compararlos asi nomas.. sino tendiras cordal = comparabilidad
             f.write(pattern_mapper.map_patterns_to_json(final_final))
 
 
