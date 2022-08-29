@@ -44,21 +44,8 @@ def output_pattern_subtraction_optimized(base_patterns: List[Pattern], pattern_m
         result_file_name = "resources/results/base_pattern_" + str(index) + ".json"
         index += 1
         results = pattern_unifying.subtract_many_patterns(base_pattern, two_thinness_patterns)
-        results_expanded = []
-        for result in results:
-            results_expanded = results_expanded + pattern_expander.expand(result)
-        expanded_base_patterns = pattern_expander.expand(base_pattern)
-        results_expanded_filtering_subgraphs = []
-        for result_expanded in results_expanded:
-            should_add = True
-            for expanded_base_pattern in expanded_base_patterns:
-                if subpattern_calculator.is_subpattern(expanded_base_pattern, result_expanded):
-                    should_add = False
-            if should_add:
-                results_expanded_filtering_subgraphs.append(result_expanded)
-        final_final = pattern_unifying.subtract_many_patterns(base_pattern, results_expanded_filtering_subgraphs) #solo para compararlos entre ellos
         with open(result_file_name, 'w') as f: # todo: ojo, los ordenes no se si vale compararlos asi nomas.. sino tendiras cordal = comparabilidad
-            f.write(pattern_mapper.map_patterns_to_json(final_final))
+            f.write(pattern_mapper.map_patterns_to_json(results))
 
 
 if __name__ == "__main__":

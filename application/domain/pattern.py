@@ -1,6 +1,5 @@
 from typing import Pattern, Tuple
 
-import graphviz
 
 Edge = Tuple[int, int]
 
@@ -100,11 +99,6 @@ class Pattern:
                     non_edges.append((i, index))
         return Pattern(total_nodes, edges, non_edges)
 
-    def to_dot_format(self):
-        dot = graphviz.Digraph(comment='Patrón')
-        for i in range(0, self.total_nodes):
-            dot.node(str(i), 'node_' + str(i))
-        # pendiente
 
     def less_or_equal_without_ordering(self, other: Pattern):
         if self.total_nodes > other.total_nodes:

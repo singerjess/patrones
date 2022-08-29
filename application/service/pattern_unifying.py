@@ -11,8 +11,8 @@ class PatternUnifying:
     def get_undecided_completion_to_form_subpattern(self, base_pattern: Pattern, comp_pattern: Pattern) -> Pattern:
         assignments = self.injective_node_mapper.possible_assignments(comp_pattern,
                                                                       base_pattern)
-        subpattern = self.subpattern_calculator.is_subpattern_with_same_ordering(base_pattern, comp_pattern, assignments)
-        if subpattern is not None:
+        subpattern = self.subpattern_calculator.is_subpattern(base_pattern, comp_pattern, assignments)
+        if subpattern:
             return Pattern(0, [], [])  # the null pattern
 
         response_pattern = Pattern(comp_pattern.total_nodes, [*comp_pattern.edges], [*comp_pattern.non_edges])
