@@ -15,10 +15,10 @@ class PatternMapper:
         return patterns
 
     def map_pattern_to_json(self, pattern: Pattern):
-        edges_string = str([list(elem) for elem in pattern.edges])
-        non_edges_string = str([list(elem) for elem in pattern.non_edges])
+        edges_string = str([list(elem) for elem in pattern.edges()])
+        non_edges_string = str([list(elem) for elem in pattern.non_edges()])
         return '{"total_nodes":' + str(
-            pattern.total_nodes) + ',"edges":' + edges_string + ', "non_edges":' + non_edges_string + '}'
+            pattern.total_nodes()) + ',"edges":' + edges_string + ', "non_edges":' + non_edges_string + '}'
 
     def map_patterns_to_json(self, results: list):
         return "{\"total\":" + str(len(results)) + ", \"items\": " + str(

@@ -39,7 +39,6 @@ def output_pattern_subtraction(base_patterns, pattern_mapper, pattern_unifying, 
 
 def output_pattern_subtraction_optimized(base_patterns: List[Pattern], pattern_mapper: PatternMapper, pattern_unifying: PatternUnifying, two_thinness_patterns, subpattern_calculator: SubpatternCalculator):
     index = 0
-    pattern_expander = PatternExpander()
     for base_pattern in base_patterns:
         result_file_name = "resources/results/base_pattern_" + str(index) + ".json"
         index += 1

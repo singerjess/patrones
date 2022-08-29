@@ -6,14 +6,14 @@ from application.domain.pattern import Edge, Pattern
 class PatternExpander():
     def expand(self, pattern: Pattern) -> List[Pattern]:
         response_patterns = []
-        undecided_edges = pattern.get_undecided_edges()
+        undecided_edges = pattern.undecided_edges()
         if len(undecided_edges) == 0:
             return [pattern]
         all_expanded_edges_possibilities = self._expand_recursively(undecided_edges, [])
 
         for expanded_edges_possibility in all_expanded_edges_possibilities:
-            response_patterns.append(Pattern(pattern.total_nodes, pattern.edges + expanded_edges_possibility[0],
-                                             pattern.non_edges + expanded_edges_possibility[1]))
+            response_patterns.append(Pattern(pattern.total_nodes(), pattern.edges() + expanded_edges_possibility[0],
+                                             pattern.non_edges() + expanded_edges_possibility[1]))
         return response_patterns
 
     def _expand_recursively(self, undecided_edges: list,

@@ -22,9 +22,9 @@ class TestPatternUnifying:
 
     def test_equal_patterns_have_only_trivial_mapping(self, subpattern_calculator, injective_node_mapper):
         base_pattern = Pattern(3, [(0, 1), (1, 2)], [(0, 2)])
-        assignments = injective_node_mapper.possible_assignments(base_pattern,
-                                                                 base_pattern)
-        assert  subpattern_calculator.is_subpattern(base_pattern, base_pattern,
+        assignments = injective_node_mapper.possible_assignments(base_pattern.total_nodes(),
+                                                                 base_pattern.total_nodes())
+        assert subpattern_calculator.is_subpattern(base_pattern, base_pattern,
                                                                                    assignments)
 
     def test_the_same_pattern_with_different_order_is_not_a_subpattern(self, pattern_unifying):
