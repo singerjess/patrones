@@ -18,7 +18,7 @@ class Graph:
 
     def __eq__(self, other):
         if isinstance(other, Graph):
-            return self.is_subgraph(other) and other.is_subgraph(self)
+            return self.is_subgraph_of(other) and other.is_subgraph_of(self)
         return False
 
     def __le__(self, other):
@@ -31,6 +31,6 @@ class Graph:
             return True
         return False
 
-    def is_subgraph(self, graph):
+    def is_subgraph_of(self, graph):
         subgraph_calculator = SubgraphCalculator(InjectiveNodeMapper())
-        return subgraph_calculator.is_subgraph(graph.nodes(), graph.edges(), self.nodes(), self.edges())
+        return subgraph_calculator.is_subgraph(self.nodes(), self.edges(), graph.nodes(), graph.edges())
