@@ -33,4 +33,13 @@ class Graph:
 
     def is_subgraph_of(self, graph):
         subgraph_calculator = SubgraphCalculator(InjectiveNodeMapper())
-        return subgraph_calculator.is_subgraph(self.nodes(), self.edges(), graph.nodes(), graph.edges())
+        return subgraph_calculator.is_induced_subgraph(self.nodes(), self.edges(), graph.nodes(),
+                                                       graph.edges())
+
+    def __repr__(self):
+        return "total_nodes:" + str(self._nodes) + "\nedges: " + ''.join(
+            map(str, self._edges)) + '\n'
+
+    def __str__(self):
+        return "total_nodes:" + str(self._nodes) + "\nedges: " + ''.join(
+            map(str, self._edges)) + "\n"

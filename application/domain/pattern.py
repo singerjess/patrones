@@ -63,9 +63,9 @@ class Pattern:
     def __lt__(self, other):
         if isinstance(other, Pattern):
             return set(self._edges).issubset(set(other._edges)) and set(self._non_edges).issubset(set(other._non_edges)) \
-                   and self.total_nodes <= other.total_nodes and (
+                   and self._total_nodes <= other.total_nodes() and (
                            len(self._edges) < len(other._edges) or len(self._non_edges) < len(
-                       other._non_edges) or self.total_nodes < other.total_nodes())
+                       other.non_edges()) or self.total_nodes() < other.total_nodes())
         return False
 
     def __add__(self, other):

@@ -1,7 +1,7 @@
 from _pytest.fixtures import fixture
 
 from application.domain.graph import Graph
-from application.domain.pattern import Pattern, Edge
+from application.domain.pattern import Pattern
 from application.mapper.expanded_pattern_graph_mapper import ExpandedPatternGraphMapper
 from application.service.pattern_expander import PatternExpander
 
@@ -44,11 +44,12 @@ class TestIntegrationPepe:
         graph_3k1 = Graph(3, [])
         graph_k3 = Graph(3, [(0, 1), (1, 2), (0, 2)])
 
-        assert not graph_3k1 == graph_k3
+        assert graph_3k1 != graph_k3
         assert not graph_3k1.is_subgraph_of(graph_k3)
         assert not graph_k3.is_subgraph_of(graph_3k1)
 
-    def test_chordal_and_comparability_patterns_are_equal_as_graphs(self, expanded_pattern_graph_mapper):
+    def test_chordal_and_comparability_patterns_are_equal_as_graphs(self,
+                                                                    expanded_pattern_graph_mapper):
         chordal_pattern = Pattern(3, [(0, 2), (1, 2)], [(0, 1)])
         comparability_pattern = Pattern(3, [(0, 1), (1, 2)], [(0, 2)])
         chordal_graph = expanded_pattern_graph_mapper.map(chordal_pattern)
@@ -62,16 +63,15 @@ class TestIntegrationPepe:
         assert comparability_graph.is_subgraph_of(chordal_graph)
         assert chordal_graph.is_subgraph_of(comparability_graph)
 
-    def test_K2_is_subgraph_of_K3(self, expanded_pattern_graph_mapper):
+    def test_K2_is_subgraph_of_K3(self):
         graph_k2 = Graph(2, [(0, 1)])
         graph_k3 = Graph(3, [(0, 1), (0, 2), (1, 2)])
 
         assert graph_k2 != graph_k3
         assert graph_k2.is_subgraph_of(graph_k3)
 
-    def test_when_expanding_and_mapping_a_pattern_with_one_undecided_edge_then_two_graphs_are_generated(self,
-                                                                                                        expanded_pattern_graph_mapper,
-                                                                                                        pattern_expander):
+    def test_when_expanding_and_mapping_a_pattern_with_one_undecided_edge_then_two_graphs_are_generated(
+            self, expanded_pattern_graph_mapper, pattern_expander):
         pattern_1 = Pattern(3, [(0, 1)], [(1, 2)])
         patterns_expanded = pattern_expander.expand(pattern_1)
         graphs = expanded_pattern_graph_mapper.map_all(patterns_expanded)
