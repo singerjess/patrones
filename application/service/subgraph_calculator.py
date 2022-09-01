@@ -17,21 +17,22 @@ class SubgraphCalculator:
         for assignment in possible_assignments:
             induced_supergraph_edges = self._generate_induced_edge_mapping(assignment,
                                                                            edges_supergraph)
-            is_subgraph = True
-            for edge in edges_subgraph:
-                if edge not in induced_supergraph_edges and (
-                        edge[1], edge[0]) not in induced_supergraph_edges:
-                    is_subgraph = False
-            for edge in induced_supergraph_edges:
-                if edge not in edges_subgraph and (edge[1], edge[0]) not in edges_subgraph:
-                    is_subgraph = False
-            if is_subgraph:
-                return True
+            if len(induced_supergraph_edges) == len(edges_subgraph): # performance, porque si tienen distinto nro de ejes nunca van a ser iguales
+                is_subgraph = True
+                for edge in edges_subgraph:
+                    if edge not in induced_supergraph_edges and (
+                            edge[1], edge[0]) not in induced_supergraph_edges:
+                        is_subgraph = False
+                for edge in induced_supergraph_edges:
+                    if edge not in edges_subgraph and (edge[1], edge[0]) not in edges_subgraph:
+                        is_subgraph = False
+                if is_subgraph:
+                    return True
         return False
 
     def _generate_induced_edge_mapping(self, assignment: List[int], edges_supergraph: List[Edge])\
             -> \
-    List[Edge]:
+            List[Edge]:
         new_edges = []
         for edge in edges_supergraph:
             if edge[0] in assignment and edge[1] in assignment:
