@@ -58,9 +58,9 @@ class PatternUnifying:
     def subtract_many_patterns(self, base_pattern, patterns):
         pattern_merges = []
         results = []
-        for two_thinness_pattern in patterns:
+        for pattern in patterns:
             pattern_merge = self.get_undecided_completion_to_form_subpattern(base_pattern,
-                                                                             two_thinness_pattern)
+                                                                             pattern)
             if pattern_merge.total_nodes() != 0:
                 pattern_merges.append(pattern_merge)
         pattern_merges.sort(key=lambda p: len(p.edges()))

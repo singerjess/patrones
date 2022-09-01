@@ -141,20 +141,26 @@ class TestIntegrationGraphComparison:
         all_patterns_subtracted = pattern_unifying.subtract_many_patterns(co_forest_pattern,
                                                                           comp_patterns)
 
+
+        first_pattern_expanded = pattern_expander.expand(all_patterns_subtracted[0])
+        second_pattern_expanded = pattern_expander.expand(all_patterns_subtracted[1])
+        all_patterns_expanded = second_pattern_expanded + first_pattern_expanded
+
+        all_patterns_expanded_subtracted = pattern_unifying.subtract_many_patterns(
+            co_forest_pattern, all_patterns_expanded)
+        graphs = expanded_pattern_graph_mapper.map_all(all_patterns_expanded_subtracted)
+        graph_unifying = GraphUnifying()
+        graphs = graph_unifying.remove_redundant_supergraphs(graphs)
+        assert len(graphs) == 4
         assert len(all_patterns_subtracted) == 2
         assert all_patterns_subtracted[0].edges() == [(0, 2), (0, 3), (1, 3)]
         assert all_patterns_subtracted[1].edges() == [(0, 2), (0, 4), (1, 4), (2, 4)]
         assert all_patterns_subtracted[0].non_edges() == [(1, 2), (2, 3)]
         assert all_patterns_subtracted[1].non_edges() == [(1, 2), (3, 4)]
-        first_pattern_expanded = pattern_expander.expand(all_patterns_subtracted[0])
         assert len(first_pattern_expanded) == 2
-        second_pattern_expanded = pattern_expander.expand(all_patterns_subtracted[1])
         assert len(second_pattern_expanded) == 16
-        all_patterns_subtracted_expanded =  second_pattern_expanded + first_pattern_expanded
-
-        all_patterns_subtracted_expanded = pattern_unifying.subtract_many_patterns(co_forest_pattern,
-                                                                          all_patterns_subtracted_expanded)
-        graphs = expanded_pattern_graph_mapper.map_all(all_patterns_subtracted_expanded)
-        graph_unifying = GraphUnifying()
-        graphs = graph_unifying.remove_redundant_supergraphs(graphs)
-        assert len(graphs) == 0
+        resulting_graphs = [Graph(4, [(0, 2),(0, 3),(1, 3)]),
+                            Graph(4, [(0, 1),(0, 2),(0, 3),(1, 3)]),
+        Graph(5, [(0, 2),(0, 3),(0, 4),(1, 3),(1, 4),(2, 3),(2, 4)]),
+        Graph(5, [(0, 1),(0, 2),(0, 3),(0, 4),(1, 3),(1, 4),(2, 3),(2, 4)])]
+        assert set(graphs) == set(resulting_graphs)
