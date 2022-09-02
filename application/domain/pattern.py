@@ -95,13 +95,6 @@ class Pattern:
                     non_edges.append((i, index))
         return Pattern(total_nodes, edges, non_edges)
 
-    def __repr__(self):
-        return "total_nodes:" + str(self._total_nodes) + "\nedges: " + ''.join(
-            map(str, self._edges)) + "\nnon_edges: " + ''.join(map(str, self._non_edges)) + '\n'
-
-    def __str__(self):
-        return "total_nodes:" + str(self._total_nodes) + "\nedges: " + ''.join(
-            map(str, self._edges)) + "\nnon_edges: " + ''.join(map(str, self._non_edges)) + "\n"
 
     def _assert_edges_and_non_edges_do_not_intersect(self, total_nodes, edges, non_edges):
         for edge in edges:

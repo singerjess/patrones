@@ -21,6 +21,9 @@ class Graph:
             return self.is_subgraph_of(other) and other.is_subgraph_of(self)
         return False
 
+    def __hash__(self):
+        return hash((self._nodes, *self._edges))
+
     def __le__(self, other):
         if isinstance(other, Graph):
             if self._nodes > other.nodes():

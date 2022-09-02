@@ -15,4 +15,4 @@ class GraphUnifying:
                 if graph.edges() != another_graph.edges() or graph.nodes() != another_graph.nodes():
                     if graph.is_subgraph_of(another_graph):
                         graphs.remove(another_graph)
-        return graphs
+        return list(set(graphs))
