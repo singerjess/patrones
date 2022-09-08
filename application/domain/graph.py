@@ -16,11 +16,6 @@ class Graph:
     def nodes(self):
         return self._nodes
 
-    def __eq__(self, other):
-        if isinstance(other, Graph):
-            return self.is_subgraph_of(other) and other.is_subgraph_of(self)
-        return False
-
     def __hash__(self):
         return hash((self._nodes, *self._edges))
 

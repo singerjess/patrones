@@ -15,7 +15,7 @@ def main():
     pattern_mapper = PatternMapper()
     base_patterns = pattern_mapper.map_json_to_pattern_list('resources/base_patterns.json')
     two_thinness_patterns = pattern_mapper.map_json_to_pattern_list(
-        'resources/two_thinness_patterns.json')
+        'resources/4_two_thinness_patterns/two_thinness_patterns.json')
     injective_node_mapper = InjectiveNodeMapper()
     subpattern_calculator = SubpatternCalculator(injective_node_mapper)
     pattern_unifying = PatternUnifying(subpattern_calculator, injective_node_mapper)
@@ -48,9 +48,12 @@ def output_pattern_subtraction_optimized(base_patterns: List[Pattern],
                                          subpattern_calculator: SubpatternCalculator):
     index = 0
     for base_pattern in base_patterns:
-        patterns_result_file_name = "resources/results/patterns/base_pattern_" + str(
+        patterns_result_file_name = \
+            "resources/4_two_thinness_patterns/results/patterns/base_pattern_" + str(
             index) + ".json"
-        graphs_result_file_name = "resources/results/graphs/base_pattern_" + str(index) + ".json"
+        graphs_result_file_name = "resources/4_two_thinness_patterns/results/graphs/base_pattern_" \
+                                  "" + str(
+            index) + ".json"
         index += 1
         results = pattern_unifying.subtract_many_patterns(base_pattern, two_thinness_patterns)
         with open(patterns_result_file_name, 'w') as f:

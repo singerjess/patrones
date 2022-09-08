@@ -12,7 +12,7 @@ class GraphUnifying:
         graphs.sort(key=lambda p: len(p.edges()))
         for index, graph in enumerate(graphs):
             for another_index, another_graph in enumerate(graphs):
-                if graph.edges() != another_graph.edges() or graph.nodes() != another_graph.nodes():
+                if graph != another_graph:
                     if graph.is_subgraph_of(another_graph):
                         graphs.remove(another_graph)
         return list(set(graphs))
